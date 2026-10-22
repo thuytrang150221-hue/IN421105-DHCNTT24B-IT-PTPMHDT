@@ -1,6 +1,6 @@
 # So sánh Starter Gốc và Starter-Completed (Đã Refactor)
 
-Thư mục này (`starter-completed`) được đặt cùng cấp với `starter` để bạn dễ dàng so sánh từng bước refactor tương ứng với từng `// TODO`.
+Thư mục này (`starter-completed`) được đặt cùng cấp với `starter` để dễ dàng so sánh từng bước refactor tương ứng với từng `// TODO`.
 
 ---
 
