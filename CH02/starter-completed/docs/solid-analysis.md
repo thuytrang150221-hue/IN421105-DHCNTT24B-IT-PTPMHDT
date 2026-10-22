@@ -1,4 +1,4 @@
-# Báo cáo phân tích vi phạm SOLID trong ClubManager (TODO 1)
+# Báo cáo phân tích và giải pháp khắc phục vi phạm SOLID trong ClubManager
 
 Tài liệu phục vụ **Nhiệm vụ 1**: Phân tích chi tiết ít nhất 4 vi phạm SOLID trong "God class" `ClubManager.cs`.
 
