@@ -1,43 +1,97 @@
 # Ch03 — Clean Architecture + REST API: EduHub Skeleton
 
-Starter của Bài tập Ch03. Hoàn thành các đoạn `// TODO` (đánh số 1 đến 8), thêm 1 test mới, rồi nộp bằng Pull Request.
-Yêu cầu đầy đủ và thang điểm: xem `de-bai.html` và `rubric.html` trong thư mục cha.
+## 1. Giới thiệu
 
-## Cấu trúc
+Bài tập Ch03 xây dựng ứng dụng EduHub theo kiến trúc Clean Architecture, kết hợp REST API để quản lý câu lạc bộ (Club).
 
-```
-EduHub.Domain/          Entity + interface repository (không phụ thuộc lớp nào)
-EduHub.Application/     Handler của từng use case (phụ thuộc Domain)
-EduHub.Infrastructure/  Repository lưu trong bộ nhớ (phụ thuộc Application)
-EduHub.API/             Controller, Swagger, Program.cs (phụ thuộc Application + Infrastructure)
-EduHub.Tests/           Unit test lớp Application, mock repository bằng Moq
-```
+Dự án được chia thành các tầng riêng biệt nhằm phân tách trách nhiệm, giúp mã nguồn dễ quản lý, kiểm thử và mở rộng.
 
-## Danh sách TODO
+## 2. Cấu trúc dự án
 
-| TODO | Tệp | Việc cần làm |
+- **EduHub.Domain:** Chứa các Entity và Repository Interface.
+- **EduHub.Application:** Chứa các Use Case và Handler xử lý nghiệp vụ.
+- **EduHub.Infrastructure:** Cài đặt Repository lưu trữ dữ liệu trong bộ nhớ (InMemory).
+- **EduHub.API:** Xây dựng REST API bằng Controller, cấu hình Dependency Injection và Swagger.
+- **EduHub.Tests:** Kiểm thử các chức năng của tầng Application bằng xUnit và Moq.
+
+## 3. Các nội dung đã hoàn thành
+
+### 3.1. Repository quản lý câu lạc bộ
+
+Hoàn thành 5 phương thức trong `InMemoryClubRepository.cs`:
+
+- Lấy danh sách câu lạc bộ.
+- Lấy câu lạc bộ theo Id.
+- Thêm câu lạc bộ mới.
+- Cập nhật thông tin câu lạc bộ.
+- Xóa câu lạc bộ.
+
+### 3.2. Xử lý nghiệp vụ tại Application
+
+Hoàn thành các Handler:
+
+- `GetClubsQuery`: Lấy danh sách câu lạc bộ.
+- `GetClubByIdQuery`: Lấy thông tin câu lạc bộ theo Id.
+- `CreateClubCommand`: Kiểm tra dữ liệu đầu vào, tạo và lưu câu lạc bộ mới.
+- `DeleteClubCommand`: Xử lý chức năng xóa câu lạc bộ.
+
+### 3.3. Cấu hình API
+
+Hoàn thành cấu hình trong `Program.cs`:
+
+- Đăng ký Dependency Injection (DI).
+- Đăng ký các Repository và Handler.
+- Cấu hình Swagger để kiểm tra API.
+
+### 3.4. Xây dựng REST API
+
+Hoàn thành 4 endpoint trong `ClubsController`:
+
+| Phương thức | Endpoint | Chức năng |
 |---|---|---|
-| 1a–1e | `EduHub.Infrastructure/Repositories/InMemoryClubRepository.cs` | 5 phương thức của kho CLB |
-| 2 | `EduHub.Application/Clubs/GetClubsQuery.cs` | Handler lấy danh sách |
-| 3 | `EduHub.Application/Clubs/GetClubByIdQuery.cs` | Handler lấy theo Id |
-| 4a–4d | `EduHub.Application/Clubs/CreateClubCommand.cs` | Kiểm tra tên, tạo và lưu CLB |
-| 5 | `EduHub.Application/Clubs/DeleteClubCommand.cs` | Handler xoá |
-| 6a–6c | `EduHub.API/Program.cs` | Đăng ký DI |
-| 7 | `EduHub.API/Program.cs` | Cấu hình Swagger |
-| 8a–8i | `EduHub.API/Controllers/ClubsController.cs` | 4 endpoint và status code |
+| GET | `/api/clubs` | Lấy danh sách câu lạc bộ |
+| GET | `/api/clubs/{id}` | Lấy câu lạc bộ theo Id |
+| POST | `/api/clubs` | Tạo câu lạc bộ mới |
+| DELETE | `/api/clubs/{id}` | Xóa câu lạc bộ |
 
-## Chạy
+Các endpoint được xử lý với những HTTP Status Code phù hợp.
+
+### 3.5. Kiểm thử Unit Test
+
+- Giữ nguyên 4 test có sẵn.
+- Bổ sung test mới cho chức năng lấy câu lạc bộ theo Id.
+- Sử dụng Moq để giả lập Repository (Mock Repository).
+- Kết quả kiểm thử: **5 tests passed**.
+
+## 4. Cách chạy dự án
+
+Mở Terminal tại thư mục `CH03/starter`, sau đó thực hiện:
 
 ```bash
-dotnet build EduHub.sln      # starter build được ngay (0 lỗi)
-dotnet test                  # ban đầu 4 test đỏ; làm xong TODO thì xanh
-dotnet run --project EduHub.API   # http://localhost:5000/swagger
+dotnet build EduHub.sln
 ```
 
-Sau khi thêm test thứ 5 (lấy CLB theo Id, mock bằng Moq), `dotnet test` phải báo 5 passed.
-Không sửa 4 test có sẵn.
+Chạy kiểm thử:
 
-## Quy ước nộp bài
+```bash
+dotnet test
+```
 
-- Làm trên nhánh riêng (ví dụ `feature/ch03-skeleton`), commit theo Conventional Commits: `feat(club): ...`, `test(club): ...`.
-- Tạo Pull Request về `main`, mô tả đủ what, why, how to test.
+Chạy ứng dụng API:
+
+```bash
+dotnet run --project EduHub.API
+```
+
+Truy cập Swagger tại địa chỉ:
+
+```text
+http://localhost:5000/swagger
+```
+
+## 5. Kết quả
+
+Đã hoàn thành các TODO từ 1 đến 8, bổ sung test thứ 5 bằng Moq và xây dựng các endpoint REST API quản lý câu lạc bộ.
+
+Bài tập được thực hiện trên nhánh riêng `feature/ch03-skeleton` để chuẩn bị nộp Pull Request về nhánh `main`.
+
